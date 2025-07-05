@@ -1,20 +1,5 @@
-public class Fuel implements Displayable
+public record Fuel(int hoursToBurn) implements Displayable
 {
-    /// This is how I made Fuel, but apparently my IDE gives me an alternative simpler piece of code
-    /// so I'll try that out in a test branch before I implement the Sky and Weather
-
-    private final int hoursToBurn;
-
-    public Fuel(int hoursToBurn)
-    {
-        this.hoursToBurn = hoursToBurn;
-    }
-
-    public int getHoursToBurn()
-    {
-        return hoursToBurn;
-    }
-
     @Override
     public void display(String currentTime)
     {
@@ -23,19 +8,21 @@ public class Fuel implements Displayable
         if (hoursToBurn <= 1)
         {
             System.out.println("Displaying twigs (1h)");
-        }
-        else if (hoursToBurn <= 6)
+        } else if (hoursToBurn <= 6)
         {
             System.out.println("Displaying more twigs (6h)");
-        }
-        else if (hoursToBurn <= 24)
+        } else if (hoursToBurn <= 24)
         {
             System.out.println("Displaying 1 log (24h)");
-        }
-        else
+        } else
         {
-            int logs = Math.min(5, hoursToBurn/24);
+            int logs = Math.min(5, hoursToBurn / 24);
             System.out.println("Displaying " + logs + " logs (" + hoursToBurn + "h)");
         }
     }
 }
+
+/// This has been changed from basically the same format as all my other classes to this by my IDE
+/// It looks pretty efficient and didn't break anything so I'm keeping it as is as I like the way it
+/// handles things, but I would understand if I should be graded by the code I personally wrote without that
+/// factoring so that should be visible in the last commit before the Main branch was merged with the Sky Branch
