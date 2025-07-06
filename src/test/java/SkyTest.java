@@ -44,8 +44,15 @@ public class SkyTest
     @Test
     public void testBoundaryTimes()
     {
-        assertEquals("Bright orange sunrise", sky.getDisplayText("06:01"));
+        assertEquals("Bright orange sunrise", sky.getDisplayText("06:00"));
         assertEquals("Blue sky", sky.getDisplayText("10:00"));
-        assertEquals("Deep pink sunset", sky.getDisplayText("18:01"));
+        assertEquals("Deep pink sunset", sky.getDisplayText("18:00"));
+
+        /// Testing some more transitions because it broke last time and I need to make sure my fix was like
+        /// actually proper and didn't just fix that one edge case somehow
+        assertEquals("Dark starry sky", sky.getDisplayText("05:59"));
+        assertEquals("Bright orange sunrise", sky.getDisplayText("06:00"));
+        assertEquals("Bright orange sunrise", sky.getDisplayText("09:59"));
+        assertEquals("Blue sky", sky.getDisplayText("10:00"));
     }
 }
