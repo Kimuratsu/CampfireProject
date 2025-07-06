@@ -13,22 +13,22 @@ public class Flame implements Displayable
     }
 
     @Override
-    public void display(String currentTime)
+    public String getDisplayText(String currentTime)
     {
         String endTime = calculateEndTime(startTime, burnHours);
 
         /// This just gives specific output based on whether the timer is ongoing, not yet started or ended
         if (currentTime.compareTo(endTime) >= 0)
         {
-            System.out.println("Flame is extinguished (timer complete)");
+            return "Flame is extinguished (timer complete)";
         }
         else if (currentTime.compareTo(startTime) < 0)
         {
-            System.out.println("Flame is not yet burning (timer not started)");
+            return "Flame is not yet burning (timer not started)";
         }
         else
         {
-            System.out.println("Flame is burning (timer on-going)");
+            return "Flame is burning (timer on-going)";
         }
     }
 
@@ -38,5 +38,11 @@ public class Flame implements Displayable
         int startHour = Integer.parseInt(startTime.split(":")[0]);
         int endHour = startHour + burnHours;
         return (endHour % 24) + ":" + startTime.split(":")[1];
+    }
+
+    @Override
+    public void display(String currentTime)
+    {
+        System.out.println(getDisplayText(currentTime));
     }
 }

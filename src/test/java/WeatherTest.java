@@ -1,99 +1,62 @@
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WeatherTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private Weather weather;
+public class WeatherTest
+{
+    private final Weather weather = new Weather();
 
-    /// As far as I understand it this is meant to organise the tests so that this piece of code goes off
-    /// first before every test does what it needs to, hence why we're putting the important initialising
-    /// stuff here. Also it helps that we don't have to write it for every test
-    @BeforeEach
-    public void setUp() {
-        System.setOut(new PrintStream(outContent));
-        weather = new Weather();
+    /// this checks for valid responses, decided to make it a helper method since all will use this
+    private void assertValidWeather(String actual, List<String> expectedOptions)
+    {
+        assertTrue(expectedOptions.contains(actual),
+                "Expected one of " + expectedOptions + " but got: " + actual);
     }
 
-    /// Tests for weather during the Night
+    /// Testing for whether the time slots align with the string outputs
     @Test
-    public void testNightWeather_RainyAndCold()
+    public void testNightWeatherOptions()
     {
-        weather.displayNightWeather(1);
-        assertEquals("Rainy and Cold", outContent.toString().trim());
-    }
-
-    @Test
-    public void testNightWeather_MistyAndHumid()
-    {
-        weather.displayNightWeather(2);
-        assertEquals("Misty and Humid", outContent.toString().trim());
+        String result = weather.getDisplayText("03:00");
+        assertValidWeather(result, List.of("Rainy and Cold", "Misty and Humid", "Clear and Quiet"));
     }
 
     @Test
-    public void testNightWeather_ClearAndQuiet()
+    public void testDayWeatherOptions()
     {
-        weather.displayNightWeather(3);
-        assertEquals("Clear and Quiet", outContent.toString().trim());
-    }
-
-    /// Tests for weather during the Day
-    @Test
-    public void testDayWeather_SunnyAndWarm()
-    {
-        weather.displayDayWeather(1);
-        assertEquals("Sunny and Warm", outContent.toString().trim());
+        String result = weather.getDisplayText("12:00");
+        assertValidWeather(result, List.of("Sunny and Warm", "Rainy and Humid", "Windy and Cold"));
     }
 
     @Test
-    public void testDayWeather_RainyAndHumid()
+    public void testEveningWeatherOptions()
     {
-        weather.displayDayWeather(2);
-        assertEquals("Rainy and Humid", outContent.toString().trim());
+        String result = weather.getDisplayText("20:00");
+        assertValidWeather(result, List.of("Warm and Quiet", "Rainy and Calm", "Snowy and Cold"));
+    }
+
+    /// And testing if they align with the randomly generated ints
+    @Test
+    public void testDirectNightWeatherMethods()
+    {
+        assertEquals("Rainy and Cold", weather.getNightWeather(1));
+        assertEquals("Misty and Humid", weather.getNightWeather(2));
+        assertEquals("Clear and Quiet", weather.getNightWeather(3));
     }
 
     @Test
-    public void testDayWeather_WindyAndCold()
+    public void testDirectDayWeatherMethods()
     {
-        weather.displayDayWeather(3);
-        assertEquals("Windy and Cold", outContent.toString().trim());
-    }
-
-    /// Test for weather during the evening
-    @Test
-    public void testEveningWeather_WarmAndQuiet()
-    {
-        weather.displayEveningWeather(1);
-        assertEquals("Warm and Quiet", outContent.toString().trim());
+        assertEquals("Sunny and Warm", weather.getDayWeather(1));
+        assertEquals("Rainy and Humid", weather.getDayWeather(2));
+        assertEquals("Windy and Cold", weather.getDayWeather(3));
     }
 
     @Test
-    public void testEveningWeather_RainyAndCalm()
+    public void testDirectEveningWeatherMethods()
     {
-        weather.displayEveningWeather(2);
-        assertEquals("Rainy and Calm", outContent.toString().trim());
-    }
-
-    @Test
-    public void testEveningWeather_SnowyAndCold()
-    {
-        weather.displayEveningWeather(3);
-        assertEquals("Snowy and Cold", outContent.toString().trim());
-    }
-
-    @Test
-    public void testRandomWeatherOutput()
-    {
-        /// Just testing the output at random to ensure it can handle it and its not like, super taxing
-        /// for whatever reason
-        for (int i = 0; i < 10; i++)
-        {
-            weather.display("07:00"); /// Night
-            weather.display("12:00"); /// Day
-            weather.display("20:00"); /// Evening
-            outContent.reset();
-        }
+        assertEquals("Warm and Quiet", weather.getEveningWeather(1));
+        assertEquals("Rainy and Calm", weather.getEveningWeather(2));
+        assertEquals("Snowy and Cold", weather.getEveningWeather(3));
     }
 }

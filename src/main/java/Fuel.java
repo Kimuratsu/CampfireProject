@@ -1,24 +1,33 @@
 public record Fuel(int hoursToBurn) implements Displayable
 {
     @Override
-    public void display(String currentTime)
+    public String getDisplayText(String currentTime)
     {
         /// Just checks for how long is it supposed to burn for, and printing out what type of fuel that
         /// time length corresponds to
         if (hoursToBurn <= 1)
         {
-            System.out.println("Displaying twigs (1h)");
-        } else if (hoursToBurn <= 6)
+            return "Displaying twigs (1h)";
+        }
+        else if (hoursToBurn <= 6)
         {
-            System.out.println("Displaying more twigs (6h)");
-        } else if (hoursToBurn <= 24)
+            return "Displaying more twigs (6h)";
+        }
+        else if (hoursToBurn <= 24)
         {
-            System.out.println("Displaying 1 log (24h)");
-        } else
+            return "Displaying 1 log (24h)";
+        }
+        else
         {
             int logs = Math.min(5, hoursToBurn / 24);
-            System.out.println("Displaying " + logs + " logs (" + hoursToBurn + "h)");
+            return ("Displaying " + logs + " logs (" + hoursToBurn + "h)");
         }
+    }
+
+    @Override
+    public void display(String currentTime)
+    {
+        System.out.println(getDisplayText(currentTime));
     }
 }
 

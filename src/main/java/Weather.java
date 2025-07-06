@@ -1,10 +1,12 @@
 import java.util.Random;
 
-public class Weather implements Displayable {
+public class Weather implements Displayable
+{
     private final Random random = new Random();
 
     @Override
-    public void display(String currentTime) {
+    public String getDisplayText(String currentTime)
+    {
         int hour = Integer.parseInt(currentTime.split(":")[0]);
         /// This just rolls a random int from 1-3 so we can get random weather from 3 options
         int weatherType = random.nextInt(3) + 1;
@@ -14,46 +16,55 @@ public class Weather implements Displayable {
         /// happens
         if (hour >= 0 && hour < 8)
         {
-            displayNightWeather(weatherType);
+            return getNightWeather(weatherType);
         }
         else if (hour >= 8 && hour < 18)
         {
-            displayDayWeather(weatherType);
+            return getDayWeather(weatherType);
         }
         else
         {
-            displayEveningWeather(weatherType);
+            return getEveningWeather(weatherType);
         }
     }
 
     /// And this also same as sky just displays stuff, but this time with the bonus of random output
-    public void displayNightWeather(int type)
+    public String getNightWeather(int type)
     {
-        switch (type)
+        return switch (type)
         {
-            case 1 -> System.out.println("Rainy and Cold");
-            case 2 -> System.out.println("Misty and Humid");
-            case 3 -> System.out.println("Clear and Quiet");
-        }
+            case 1 -> "Rainy and Cold";
+            case 2 -> "Misty and Humid";
+            case 3 -> "Clear and Quiet";
+            default -> "";
+        };
     }
 
-    public void displayDayWeather(int type)
+    public String getDayWeather(int type)
     {
-        switch (type)
+        return switch (type)
         {
-            case 1 -> System.out.println("Sunny and Warm");
-            case 2 -> System.out.println("Rainy and Humid");
-            case 3 -> System.out.println("Windy and Cold");
-        }
+            case 1 -> "Sunny and Warm";
+            case 2 -> "Rainy and Humid";
+            case 3 -> "Windy and Cold";
+            default -> "";
+        };
     }
 
-    public void displayEveningWeather(int type)
+    public String getEveningWeather(int type)
     {
-        switch (type)
+        return switch (type)
         {
-            case 1 -> System.out.println("Warm and Quiet");
-            case 2 -> System.out.println("Rainy and Calm");
-            case 3 -> System.out.println("Snowy and Cold");
-        }
+            case 1 -> "Warm and Quiet";
+            case 2 -> "Rainy and Calm";
+            case 3 -> "Snowy and Cold";
+            default -> "";
+        };
+    }
+
+    @Override
+    public void display(String currentTime)
+    {
+        System.out.println(getDisplayText(currentTime));
     }
 }
