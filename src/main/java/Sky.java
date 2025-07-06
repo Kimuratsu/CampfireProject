@@ -30,12 +30,16 @@ public class Sky implements Displayable
 
     private boolean isBetween(int startHour, int endHour, int currentHour, int currentMinute)
     {
-        /// This is just here to handle the case of midnight since it broke a test previously
-        if (startHour == 0 && endHour == 6) {
-            return currentHour < 6 || (currentHour == 0 && currentMinute >= 0);
+        /// Now handles all cases except the edge cases
+        if (currentHour > startHour && currentHour < endHour) {
+            return true;
         }
-        return (currentHour > startHour || (currentHour == startHour && currentMinute >= 0))
-                && currentHour < endHour;
+        /// Now handles the starting edge (:00)
+        if (currentHour == startHour) {
+            return currentMinute >= 0;
+        }
+        ///  Handles the ending edge case
+        return false;
     }
 
     @Override
