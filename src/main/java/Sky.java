@@ -1,30 +1,30 @@
 public class Sky implements Displayable
 {
     @Override
-    public void display(String currentTime)
+    public String getDisplayText(String currentTime)
     {
         int hour = Integer.parseInt(currentTime.split(":")[0]);
         int minute = Integer.parseInt(currentTime.split(":")[1]);
 
         if (isBetween(0, 6, hour, minute))
         {
-            System.out.println("Dark starry sky");
+            return "Dark starry sky";
         }
         else if (isBetween(6, 10, hour, minute))
         {
-            System.out.println("Bright orange sunrise");
+            return "Bright orange sunrise";
         }
         else if (isBetween(10, 18, hour, minute))
         {
-            System.out.println("Blue sky");
+            return "Blue sky";
         }
         else if (isBetween(18, 20, hour, minute))
         {
-            System.out.println("Deep pink sunset");
+            return "Deep pink sunset";
         }
         else
         {
-            System.out.println("Dark blue sky");
+            return "Dark blue sky";
         }
     }
 
@@ -37,5 +37,11 @@ public class Sky implements Displayable
         }
         return (currentHour > startHour || (currentHour == startHour && currentMinute >= 1))
                 && currentHour < endHour;
+    }
+
+    @Override
+    public void display(String currentTime)
+    {
+        System.out.println(getDisplayText(currentTime));
     }
 }

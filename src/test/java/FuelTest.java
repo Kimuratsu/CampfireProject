@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 /// This will be present in all tests because its, well, the import for tests
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FuelTest
 {
@@ -8,22 +9,23 @@ public class FuelTest
     public void testDisplay_TwigsAfter1Hour()
     {
         Fuel fuel = new Fuel(1);
-        /// The current times here are all arbitrary, I just needed something to let this run since
-        /// it still uses current time
-        fuel.display("1:00");
+        String result = fuel.getDisplayText("1:00");
+        assertEquals("Displaying twigs (1h)", result);
     }
 
     @Test
     public void testDisplay_MoreTwigsAfter6Hours()
     {
         Fuel fuel = new Fuel(6);
-        fuel.display("1:00");
+        String result = fuel.getDisplayText("1:00");
+        assertEquals("Displaying more twigs (6h)", result);
     }
 
     @Test
     public void testDisplay_LogsAfter1Day()
     {
         Fuel fuel = new Fuel(24);
-        fuel.display("0:00");
+        String result = fuel.getDisplayText("0:00");
+        assertEquals("Displaying 1 log (24h)", result);
     }
 }

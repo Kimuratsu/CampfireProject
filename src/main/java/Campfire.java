@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Campfire implements Displayable
 {
@@ -17,5 +18,12 @@ public class Campfire implements Displayable
         {
             component.display(currentTime);
         }
+    }
+
+    @Override
+    public String getDisplayText(String currentTime)
+    {
+        return fireComponents.stream().map(component -> component.getDisplayText(currentTime))
+                .collect(Collectors.joining("\n"));
     }
 }
